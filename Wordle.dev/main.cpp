@@ -28,8 +28,8 @@ while (fin>>linie)
         cuvant_corect=linie; break;
     }
 }
-cout<<"Cuvantul corect este: "<<cuvant_corect<<endl;
-
+cout<<"             WORDLE             "<<endl;
+cout<<endl;
 int lungime_cuvant=cuvant_corect.length();
 int incercari=lungime_cuvant+1;
 
