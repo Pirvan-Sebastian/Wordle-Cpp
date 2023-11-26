@@ -1,17 +1,36 @@
 //          Wordle-C++ 
 #include<bits/stdc++.h>
+#include <conio.h>
+
+#define RESET   "\033[0m"
+#define RED     "\033[31m"
+#define GREEN   "\033[32m"
+#define YELLOW  "\033[33m"
 
 using namespace std;
-
- 
-
+ifstream fin("cuvinte.txt");
+//declarare variabile
+string linie;
+int numar_random;
+int numar_lini,i,j,ok,corect,s,castig;
+ string cuvant_user,cuvant_corect,varianta;
 
 int main()
 {
- int i,j,ok,corect=0,s=0,castig=0;
- char cuvant_user[8],cuvant_corect[8],varianta[8];
- cin.getline(cuvant_corect,8);
-int lungime_cuvant=strlen(cuvant_corect);
+srand(time(0));
+numar_random = rand() % 10658;
+
+while (fin>>linie)
+{
+    numar_lini++;
+    if (numar_lini == numar_random)
+    {
+        cuvant_corect=linie; break;
+    }
+}
+cout<<"Cuvantul corect este: "<<cuvant_corect<<endl;
+
+int lungime_cuvant=cuvant_corect.length();
 int incercari=lungime_cuvant+1;
 
 while(castig==0)
@@ -20,9 +39,9 @@ while(castig==0)
  while(corect==0)
   {
     cout<<"Introduceti un cuvant de "<<lungime_cuvant<<" litere: ";
-    cin.getline(cuvant_user,8);
+    cin>>cuvant_user;
     cout<<endl;
-    if(lungime_cuvant!=strlen(cuvant_user))
+    if(lungime_cuvant!=cuvant_user.length())
       cout<<"Cuvantul introdus nu are lungimea corecta"<<endl;
     else
       {
@@ -30,9 +49,9 @@ while(castig==0)
       }
   }
 //verific litera cu litera si formez varianta
- for(i=0;i<strlen(cuvant_user);i++)
+ for(i=0;i<lungime_cuvant;i++)
   { ok=0;
-    for(j=0;j<strlen(cuvant_corect);j++)
+    for(j=0;j<lungime_cuvant;j++)
       {
        if(cuvant_user[i]==cuvant_corect[j] && i==j)
        {
@@ -51,21 +70,11 @@ while(castig==0)
   for(i=0;i<lungime_cuvant;i++)
     {
       if(varianta[i]==2)
-        {
-        //instructiune cu verde ca e corect si pe pozitia buna+afisez litera cu verde pe ea(daca pot in c++)
-        cout<<'x';
-        }
+       cout << GREEN <<cuvant_user[i]<< RESET;
       else if(varianta[i]==1)
-        {
-        //instructiune cu galben ca e corect dar pe pozitia gresita+afisez litera cu galben pe ea(daca pot in c++)
-        cout<<'o';
-        }
+         cout << YELLOW <<cuvant_user[i]<< RESET;
       else
-        {
-        //instructiune cu rosu ca e gresit+afisez litera cu rosu pe ea(daca pot in c++)
-        cout<<'-';
-        }
-    
+         cout << RED <<cuvant_user[i]<< RESET;
     }
     //verific daca e solutie finala
         for(i=0;i<lungime_cuvant;i++)
@@ -74,13 +83,13 @@ while(castig==0)
           }
           if(s==2*lungime_cuvant)
             {
-            cout<<"Felicitari! Ati castigat!";
+              cout<<endl;
             castig=2;break;
             }
             else
               {
                 cout<<endl;
-              cout<<"Mai aveti "<<incercari<<" incercari"<<endl;
+               cout<<"Mai aveti "<<incercari<<" incercari"<<endl;
               }
         if(incercari==0)
           {
@@ -97,5 +106,15 @@ while(castig==0)
       {
       cout<<"Felicitari! Ati castigat!";
       }
+
+//Oprire la apasarea tastei Enter
+      char ch;
+      cout<<endl<<"Apasati Enter pentru a iesi din program";
+     do
+     {
+      ch = getch();
+     }while( ch != char(13) );//13 cod ASCII pt Enter
+
+      return 0;
     
 }
