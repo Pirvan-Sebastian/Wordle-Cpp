@@ -1,2 +1,2 @@
 # Wordle-Cpp
-Worlde Game made in C++
+Wordle Game made in C++
