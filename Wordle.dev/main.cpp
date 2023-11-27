@@ -9,14 +9,16 @@
 
 using namespace std;
 ifstream fin("cuvinte.txt");
+
 //declarare variabile
 string linie;
-int numar_random;
+int numar_aparitii,numar_random,Frecventa[27];
 int numar_lini,i,j,ok,corect,s,castig;
- string cuvant_user,cuvant_corect,varianta;
+string cuvant_user,cuvant_corect,varianta;
 
 int main()
 {
+
 srand(time(0));
 numar_random = rand() % 10658;
 
@@ -25,12 +27,21 @@ while (fin>>linie)
     numar_lini++;
     if (numar_lini == numar_random)
     {
-        cuvant_corect=linie; break;
+        cuvant_corect=linie; 
+        break;
     }
 }
+
 cout<<"             WORDLE             "<<endl;
 cout<<endl;
 int lungime_cuvant=cuvant_corect.length();
+
+//Vector frecventa
+for(i=0;i<lungime_cuvant;i++)
+{
+  Frecventa[cuvant_corect[i]-'a']++;
+}
+
 int incercari=lungime_cuvant+1;
 
 while(castig==0)
@@ -45,27 +56,33 @@ while(castig==0)
       cout<<"Cuvantul introdus nu are lungimea corecta"<<endl;
     else
       {
-        corect=1; incercari--;
+        corect=1; 
+        incercari--;
       }
   }
 //verific litera cu litera si formez varianta
  for(i=0;i<lungime_cuvant;i++)
-  { ok=0;
+  { ok=0; 
+
     for(j=0;j<lungime_cuvant;j++)
       {
        if(cuvant_user[i]==cuvant_corect[j] && i==j)
        {
-        ok=2;break;
+        ok=2;
+        numar_aparitii++;
+        break;
        }
        else if(cuvant_user[i]==cuvant_corect[j] && i!=j)
          {
-            ok=1;
-
+             ok=1;
+             numar_aparitii++;
          }
+         if(numar_aparitii>=Frecventa[cuvant_user[i]-'a']) ok=0;
       }
-      varianta[i]=ok;
 
+      varianta[i]=ok;
   }
+
   //verificare varianta introdusa de user
   for(i=0;i<lungime_cuvant;i++)
     {
@@ -76,6 +93,7 @@ while(castig==0)
       else
          cout << RED <<cuvant_user[i]<< RESET;
     }
+
     //verific daca e solutie finala
         for(i=0;i<lungime_cuvant;i++)
           {
@@ -84,20 +102,23 @@ while(castig==0)
           if(s==2*lungime_cuvant)
             {
               cout<<endl;
-            castig=2;break;
+              castig=2;break;
             }
             else
               {
                 cout<<endl;
-               cout<<"Mai aveti "<<incercari<<" incercari"<<endl;
+                cout<<"Mai aveti "<<incercari<<" incercari"<<endl;
               }
+
         if(incercari==0)
           {
           castig=1;break;
           }
+
     //resetez variabilele
       corect=0;s=0;
     }
+
     if(castig==1)
       {
       cout<<"Ati pierdut! Cuvantul era: "<<cuvant_corect;
@@ -110,7 +131,7 @@ while(castig==0)
 //Oprire la apasarea tastei Enter
       char ch;
       cout<<endl<<"Apasati Enter pentru a iesi din program";
-     do
+    do
      {
       ch = getch();
      }while( ch != char(13) );//13 cod ASCII pt Enter
