@@ -18,7 +18,7 @@ int main()
 {
 
 srand(time(0));
-numar_random = rand() % 10658;
+numar_random = rand() % 2309;
 
 cuvant_corect=alegere_cuvant(numar_random);
 
